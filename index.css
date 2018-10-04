@@ -1,0 +1,14 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.firstLink {
+    padding-top: 50px;
+}
+
+.summary {
+    margin: 25px;
+}
