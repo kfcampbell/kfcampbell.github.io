@@ -72,7 +72,21 @@ Both Go and C# are:
 
 ## Dependency management
 
-Dependency management used to be a somewhat contentious subject in the Go ecosystem, with a number of third party solutions attempting to address the gap in this language specification.
+Dependency management used to be a somewhat contentious subject in the Go ecosystem, with a number of third party solutions attempting to address the gap in this language tooling. [v1.11](https://golang.org/doc/go1.11), however, introduced experimental support for Go modules, and [v1.14](https://golang.org/doc/go1.14) (released this February) standardized them as ready for production use. Modules allow reusable packages to be imported using their URL, as in `import github.com/go-sql-driver/mysql`. Similar to Nuget packages (and unlike Node modules), modules are cached at a user level and not at a repository level. Somewhat like a `Nuget.config` file, module dependencies are declared in a `go.mod` file  in the project's root. The syntax for this file is as follows:
+
+```go
+module github.com/github/go-sample-service
+
+go 1.14
+
+require (
+	github.com/go-sql-driver/mysql v1.5.0
+)
+```
+
+You'll notice three important sections: the top line is the declaration of the module name (also where it's hosted). The second line is the version of Go the module uses. After that, all the modules the application imports are declared and given a version.
+
+Building and/or running your code will result in a generated file `go.sum` that contains the checksums for all the packages you use. Similar to a `package.json`, this should be checked into source control.
 
 ## Brief tooling introduction
 
