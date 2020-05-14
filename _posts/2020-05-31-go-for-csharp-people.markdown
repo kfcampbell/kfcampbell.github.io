@@ -86,14 +86,39 @@ require (
 
 You'll notice three important sections: the top line is the declaration of the module name (also where it's hosted). The second line is the version of Go the module uses. After that, all the modules the application imports are declared and given a version.
 
-Building and/or running your code will result in a generated file `go.sum` that contains the checksums for all the packages you use. Similar to a `package.json`, this should be checked into source control.
+Building and/or running your code will result in a generated file `go.sum` that contains the checksums for all the packages you use. Similar to a `package.json` (although NOT a lockfile, it contains enough information for reproducible builds), this should be checked into source control.
 
 ## Brief tooling introduction
 
-- Development in Go is heavily reliant on a few tools I'll provide a brief overview of here. To see all the tools and their documentation, run `go help` and then `go <command> help` at your terminal. For now, let's stick with:
+- Development in Go is heavily reliant on a few tools I'll provide a brief overview of here. To see all the tools and their documentation, run `go help` and then `go <command> help` at your terminal. For now, what you need to know are the following:
 
 - `go get`
+    - Adds and installs dependencies to your current project
+- `go build`
+    - Compiles packages and dependencies
+    - Example use: `go build ./...` to recursively build every package in the current directory
 - `go run`
+    - Compiles _and_ runs a Go program
+    - Example use: `go run cmd/twirp/main.go` in the [go-sample-service](https://github.com/github/go-sample-service)
+- `gofmt`
+    - Will reformat source code in your package
+    - Many editors have plugins to perform this operation automatically on saving
+- `go mod`
+    - Command to interact with modules
+    - Example use: `go mod tidy` will add any missing modules necessary to build and remove any unused modules
+- `go doc`
+    - Invaluable tool for quickly looking up Go documentation
+    - Example use: `go doc fmt.Sprintf`
+
+## Rapid-fire syntax rundown
+
+Buckle up, because we'll be quickly running through all the syntax you'll need in order to lose thousands of dollars with a bot that calls Robin Hood's undocumented API to trade stocks:
+
+TODO(kfcampbell) fill this in
+
+
+
+## Concurrency and asynchronous programming in Go and C#
 
 
 ## Brief note on garbage collection
