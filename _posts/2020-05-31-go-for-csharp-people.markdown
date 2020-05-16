@@ -49,7 +49,7 @@ Go is a highly-opinionated language. All Go source code is formatted the same, t
 
 ## Basic similarities and differences
 
-### Similarities
+### Same-Same
 
 Both Go and C# are:
 
@@ -60,7 +60,7 @@ Both Go and C# are:
     - in Go, typically no changes are needed to support a binary e.g. compiled on macOS but running in Linux in production
 - include robust standard libraries
 
-### Differences
+### But Different
 
 - Go has no runtime required (like the [.NET CLR](https://docs.microsoft.com/en-us/dotnet/standard/clr))
 - Go has no generics
@@ -129,7 +129,7 @@ import (
 )
 
 func main() {
-	fmt.Printf("identity theft is not a joke, Jim. millions of families suffer every year!\n")
+	fmt.Printf("identity theft is not a joke, jim")
 }
 ```
 
@@ -159,7 +159,7 @@ If you need to create a variable without initialization, try
     ans = 42
 ```
 
-Strings use `"` (or ``` for multi-line strings)
+Strings use `"` (or single backticks for multi-line strings)
 ```go
     res := "error fetching profile"
 ```
@@ -175,24 +175,53 @@ Also note the lack of any `public` or `private` modifiers. This function is priv
 
 Zero values are 0 (for numeric types), the empty string "" (for strings), and `false` (for booleans). Unlike C#, there is no `string.Empty` function. Use the literal value `""` if you need to check a value against an empty string.
 ```go
-    var x int
-	var y string
-	var z bool
+var x int
+var y string
+var z bool
 	
-	fmt.Printf("%v, %v, %v", x, y, z)
+fmt.Printf("%v, %v, %v", x, y, z)
+// 0, , false
 ```
-Note the usage of the standard library `fmt` to print content. To see the docs on this function, run `go doc fmt.Printf` from your terminal.
+Note the usage of the standard library `fmt` to print content. To see the docs on this function, run `go doc fmt.Printf` from your terminal. This is a super quick way to access documentation without invoking [your favorite search engine](https://duckduckgo.com/), and it'll make you look 1337 in your next pair programming session.
 
+Go only has one type of loop, but with a little massaging, it can easily replicate the normal loop types (for, while, infinite). Observe:
 ```go
+for i := 0; i < 10; i++ {
+    fmt.Printf("%v, ", i)
+}
+// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 
 
+i := 0
+for i < 10 {
+    fmt.Printf("%v, ", i)
+    i++
+}
+// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 
+
+i := 0 
+for {
+    fmt.Printf("%v, ", i)
+    i++
+}
+// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
+// timeout running program
 ```
 
+If statements are exactly what you'd expect. The Go attitude is no parentheses, no problems.
 ```go
+x := 0
 
+if x > 0 {
+    fmt.Printf("help i'm trapped inside a Go standard library")
+} else if x < 0 {
+    fmt.Printf("i can't get out of the fmt package")
+} else {
+    fmt.Printf("please i have kids")
+}
+// please i have kids
 ```
 
-TODO(kfcampbell) fill this in
-
+Switch statements are a bit different than C#. Go only allows a single case to be run at once, so you won't see `break` littered throughout the codeblock. 
 
 
 ## Concurrency and asynchronous programming in Go and C#
