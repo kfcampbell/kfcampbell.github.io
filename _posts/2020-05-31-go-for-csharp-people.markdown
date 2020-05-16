@@ -72,7 +72,13 @@ Both Go and C# are:
 
 ## Dependency management
 
-Dependency management used to be a somewhat contentious subject in the Go ecosystem, with a number of third party solutions attempting to address the gap in this language tooling. [v1.11](https://golang.org/doc/go1.11), however, introduced experimental support for Go modules, and [v1.14](https://golang.org/doc/go1.14) (released this February) standardized them as ready for production use. Modules allow reusable packages to be imported using their URL, as in `import github.com/go-sql-driver/mysql`. Similar to Nuget packages (and unlike Node modules), modules are cached at a user level and not at a repository level. Somewhat like a `Nuget.config` file, module dependencies are declared in a `go.mod` file  in the project's root. The syntax for this file is as follows:
+Dependency management used to be a somewhat contentious subject in the Go ecosystem, with a number of third party solutions attempting to address the gap in this language tooling. [v1.11](https://golang.org/doc/go1.11), however, introduced experimental support for Go modules, and [v1.14](https://golang.org/doc/go1.14) (released this February) standardized them as ready for production use.
+
+Before we can get into modules, however, we need to briefly discuss packages. All Go source files must declare a package in their first line, and every Go file must have at least one `package main` file that declares a `func main()`. Other than the file that contains `main`, code must be placed in a directory whose name matches the `package` of files within it. As previously mentioned, all uncapitalized members and functions are private, and all capitalized ones are publically visible. 
+
+Modules allow reusable packages to be imported using their URL, as in `import github.com/go-sql-driver/mysql`. Interestingly, packages from within a project as well as third party dependencies are imported using _the exact same syntax_. Put another way: if a function is public in your code, and your code is accessible, anybody can import and use it! This can lead to some weird issues [like this one](https://github.com/github/hub/issues/2517#issuecomment-615531677), in which parts of an application are consumed as a library by other applications.
+
+Similar to Nuget packages (and unlike Node modules), modules are cached at a user level and not at a repository level. Somewhat like a `Nuget.config` file, module dependencies are declared in a `go.mod` file  in the project's root. The syntax for this file is as follows:
 
 ```go
 module github.com/github/go-sample-service
@@ -110,9 +116,80 @@ Building and/or running your code will result in a generated file `go.sum` that 
     - Invaluable tool for quickly looking up Go documentation
     - Example use: `go doc fmt.Sprintf`
 
+
+### Creating an example application for a sandbox
+
+Go has a [sweet playground](https://play.golang.org/) for you to experiment in! But if you're the type who's reading this in Mutt through an RSS feed, [install Go](https://golang.org/doc/install) (or on MacOS, just run `brew install go`) and create a file called `whateverYouDamnWellPlease.go` and fill it with the following content:
+
+```go
+package main
+
+import (
+    "fmt"
+)
+
+func main() {
+	fmt.Printf("identity theft is not a joke, Jim. millions of families suffer every year!\n")
+}
+```
+
+Remember how opinionated Go is? The "Go-y" place to store your source is `~/go/src/url/to/your/code`. In practice, that looks something like `~/go/src/github.com/github/hub`. For those of you following along at home, you can dump your newly created file in a directory like `~/go/src/github.com/yourGitHubName/go-experiments`.
+
+If you've done everything right, you can `cd` to that directory and run `go run whateverYouDamnWellPlease.go`, and you'll be able to see the string output to stdout.
+
 ## Rapid-fire syntax rundown
 
 Buckle up, because we'll be quickly running through all the syntax you'll need in order to lose thousands of dollars with a bot that calls Robin Hood's undocumented API to trade stocks:
+
+Create a new variable by using the `:=` operator
+
+```go
+    ans := 42
+```
+
+After the variable is created, use `=` to reassign it:
+
+```go
+    ans = 1
+```
+
+If you need to create a variable without initialization, try
+```go
+    var ans int
+    ans = 42
+```
+
+Strings use `"` (or ``` for multi-line strings)
+```go
+    res := "error fetching profile"
+```
+
+Functions are declared like so:
+```go
+func add(x int, y int) int {
+    return x + y
+}
+```
+Note that the returned value appears after the function arguments. Omit this if your function doesn't return a value.
+Also note the lack of any `public` or `private` modifiers. This function is private to its package because it begins with a lowercase `a` instead of `A`.
+
+Zero values are 0 (for numeric types), the empty string "" (for strings), and `false` (for booleans). Unlike C#, there is no `string.Empty` function. Use the literal value `""` if you need to check a value against an empty string.
+```go
+    var x int
+	var y string
+	var z bool
+	
+	fmt.Printf("%v, %v, %v", x, y, z)
+```
+Note the usage of the standard library `fmt` to print content. To see the docs on this function, run `go doc fmt.Printf` from your terminal.
+
+```go
+
+```
+
+```go
+
+```
 
 TODO(kfcampbell) fill this in
 
@@ -131,3 +208,4 @@ TODO(kfcampbell) fill this in
 
 - discuss error handling in C# (exceptions) vs. Go (returned errors)
 - have a section on "norms" like error handling and "everyone stays updated"?
+- add section of things
