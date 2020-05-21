@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Go for C# People, Part Two: Syntax, Concurrency, and Garbage Collection"
-date: 2020-05-21 00:00:00-0700
+date: 2020-05-31 00:00:00-0700
 description: We learn syntax rapid-fire, then delve into Go's concurrency and garbage collection models.
 ---
 
