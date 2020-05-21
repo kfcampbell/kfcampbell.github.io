@@ -136,4 +136,4 @@ If you've done everything right, you can `cd` to that directory and run `go run 
 
 ## That's It For Now
 
-Part Two on this topic is coming soon! 
+Part Two on this topic is coming soon! If you're interested, I can be reached [@kfcampbell on GitHub](https://github.com/kfcampbell) or [@keeganfcampbell on Twitter](https://twitter.com/keeganfcampbell), because apparently that's a thing I have now.
