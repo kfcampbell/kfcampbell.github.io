@@ -1,28 +1,24 @@
 ---
 layout: post
-title:  "Go for C# Developers"
+title:  "Go for C# Developers Part One: The Overview"
 date:   2020-05-13 13:05:07 -0700
-categories: jekyll update
+categories: go golang csharp
 ---
-# Go for C# Developers
+# Go for C# Developers Part One: An Overview
 
-## Overview
+## In Which We Discuss The Following:
 
 - Goals of this blog post
 - Quick Go summary
 - Basic similarities/differences
 - Dependency management
 - Brief tooling introduction
-- Rapid-fire syntax rundown
-- Concurrency and asynchronous programming in Go vs. C#
-- Brief note on garbage collection
-- Some helpful links for more information
 
 ## Goals of this Blog Post
 
-Welcome! This post assumes working knowledge of C# and it's targetted toward those without Go experience. The aim is to provide just enough of an introduction to the language to make you dangerous :P. It's also somewhat influenced by [A half-hour to learn Rust](https://fasterthanli.me/blog/2020/a-half-hour-to-learn-rust/). When I start learning a new language, I tend to learn best by doing - that is, I like to experiment and make the dumb mistakes myself, before the deeper lessons sink in, and I'd like to make this the sort of blog post I wish I had when I was learning Go for the first time.
+Welcome! This post assumes working knowledge of C# and it's targetted toward those without Go experience. The aim is to provide just enough of an introduction to the language to make you dangerous :P.  When I start learning a new language, I tend to learn best by doing - that is, I like to experiment and make the dumb mistakes myself, before the deeper lessons sink in, and I'd like to make this the sort of blog post I wish I had when I was learning Go for the first time.
 
-That being said, there's a couple basic things we have to discuss up front before we can jump straight into writing Go code. Let's start with a brief overview of the language and some of its major design decisions.
+That being said, there's a couple basic things we have to discuss up front before we can jump straight into writing Go code (I know, I'm sorry!). But trust me, it won't be so bad, and we'll let you stare at compiler errors yourself in Part Two (coming soon!). For now, let's start with a brief overview of the language and some of its major design decisions.
 
 ## Quick Go Summary
 
@@ -40,11 +36,11 @@ Go is frequently compared to C due to a similar syntax, pointer usage, and relat
 
 Go tends to align well with a couple of different use cases. Its small binary size, concurrency tooling, and fast execution speed means it's frequently used for high-volume distributed webservices, most frequently ones that speak RPC but RESTful services as well. Some of these factors also make it useful for writing CLIs or interactive tools for testing services. You'll commonly see a simple CLI included with a Twirp service for testing purposes here at GitHub.
 
-Go plays pretty nicely with C, and includes functionality that both let applications call C code from Go, and export Go code to C standard libraries (which can then be called by numerous other languages, including C, Node, Python, Java, and Ruby). For this reason, it's a common choice when writing libraries and frameworks, even ones that need to integrate with other languages.
+Go plays pretty nicely with C, and includes functionality that both lets applications call C code from Go, and export Go code to C standard libraries (which can then be called by numerous other languages, including C, Node, Python, Java, and Ruby). For this reason, it's a common choice when writing libraries and frameworks, even ones that need to integrate with other languages.
 
 Many of the attributes discussed above also make Go a reliable choice for automation, monitoring, and data processing tools. For more information on what the Go community is using the language for, you can view the results of the [yearly developer survey](https://blog.golang.org/survey2019-results).
 
-Go is a highly-opinionated language. All Go source code is formatted the same, thanks to the `gofmt` command. Uncapitalized members are always kept private, whereas capitalized ones are public (there are no `public`/`private` modifier keywords!). There is no concept of inheritance; instead the language enforces composition. All of these decisions require every developer to either get with the program or leave, but once you re-align your thinking to the Go way of doing things, it allows for a surprising amount of speed and freedom. 
+Go is a highly opinionated language. All Go source code is formatted the same, thanks to the `gofmt` command. Uncapitalized members are always kept private, whereas capitalized ones are public (there are no `public`/`private` modifier keywords!). There is no concept of inheritance; instead the language enforces composition. All of these decisions require every developer to either get with the program or leave, but once you re-align your thinking to the Go way of doing things, it allows for a surprising amount of speed and freedom. 
 
 
 ## Basic similarities and differences
@@ -100,6 +96,7 @@ Building and/or running your code will result in a generated file `go.sum` that 
 
 - `go get`
     - Adds and installs dependencies to your current project
+    - Example use: `go get github.com/go-sql-driver/mysql`
 - `go build`
     - Compiles packages and dependencies
     - Example use: `go build ./...` to recursively build every package in the current directory
@@ -119,7 +116,7 @@ Building and/or running your code will result in a generated file `go.sum` that 
 
 ### Creating an example application for a sandbox
 
-Go has a [sweet playground](https://play.golang.org/) for you to experiment in! But if you're the type who's reading this in Mutt through an RSS feed, [install Go](https://golang.org/doc/install) (or on MacOS, just run `brew install go`) and create a file called `whateverYouDamnWellPlease.go` and fill it with the following content:
+Go has a [sweet playground](https://play.golang.org/) for you to experiment in! But if you're the type who's reading this in Mutt through an RSS feed, [install Go](https://golang.org/doc/install) (or on MacOS, just run `brew install go`) and create a file called `main.go` and fill it with the following content:
 
 ```go
 package main
@@ -135,106 +132,8 @@ func main() {
 
 Remember how opinionated Go is? The "Go-y" place to store your source is `~/go/src/url/to/your/code`. In practice, that looks something like `~/go/src/github.com/github/hub`. For those of you following along at home, you can dump your newly created file in a directory like `~/go/src/github.com/yourGitHubName/go-experiments`.
 
-If you've done everything right, you can `cd` to that directory and run `go run whateverYouDamnWellPlease.go`, and you'll be able to see the string output to stdout.
+If you've done everything right, you can `cd` to that directory and run `go run main.go`, and you'll be able to see the string output to stdout.
 
-## Rapid-fire syntax rundown
+## That's It For Now
 
-Buckle up, because we'll be quickly running through all the syntax you'll need in order to lose thousands of dollars with a bot that calls Robin Hood's undocumented API to trade stocks:
-
-Create a new variable by using the `:=` operator
-
-```go
-    ans := 42
-```
-
-After the variable is created, use `=` to reassign it:
-
-```go
-    ans = 1
-```
-
-If you need to create a variable without initialization, try
-```go
-    var ans int
-    ans = 42
-```
-
-Strings use `"` (or single backticks for multi-line strings)
-```go
-    res := "error fetching profile"
-```
-
-Functions are declared like so:
-```go
-func add(x int, y int) int {
-    return x + y
-}
-```
-Note that the returned value appears after the function arguments. Omit this if your function doesn't return a value.
-Also note the lack of any `public` or `private` modifiers. This function is private to its package because it begins with a lowercase `a` instead of `A`.
-
-Zero values are 0 (for numeric types), the empty string "" (for strings), and `false` (for booleans). Unlike C#, there is no `string.Empty` function. Use the literal value `""` if you need to check a value against an empty string.
-```go
-var x int
-var y string
-var z bool
-	
-fmt.Printf("%v, %v, %v", x, y, z)
-// 0, , false
-```
-Note the usage of the standard library `fmt` to print content. To see the docs on this function, run `go doc fmt.Printf` from your terminal. This is a super quick way to access documentation without invoking [your favorite search engine](https://duckduckgo.com/), and it'll make you look 1337 in your next pair programming session.
-
-Go only has one type of loop, but with a little massaging, it can easily replicate the normal loop types (for, while, infinite). Observe:
-```go
-for i := 0; i < 10; i++ {
-    fmt.Printf("%v, ", i)
-}
-// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 
-
-i := 0
-for i < 10 {
-    fmt.Printf("%v, ", i)
-    i++
-}
-// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 
-
-i := 0 
-for {
-    fmt.Printf("%v, ", i)
-    i++
-}
-// 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
-// timeout running program
-```
-
-If statements are exactly what you'd expect. The Go attitude is no parentheses, no problems.
-```go
-x := 0
-
-if x > 0 {
-    fmt.Printf("help i'm trapped inside a Go standard library")
-} else if x < 0 {
-    fmt.Printf("i can't get out of the fmt package")
-} else {
-    fmt.Printf("please i have kids")
-}
-// please i have kids
-```
-
-Switch statements are a bit different than C#. Go only allows a single case to be run at once, so you won't see `break` littered throughout the codeblock. 
-
-
-## Concurrency and asynchronous programming in Go and C#
-
-
-## Brief note on garbage collection
-
-- Go is mark and sweep: https://www.ardanlabs.com/blog/2018/12/garbage-collection-in-go-part1-semantics.html
-    - Go hasn't done something more sophisticated because: https://groups.google.com/forum/m/#!topic/golang-nuts/KJiyv2mV2pU
-- C# is mark-compact: https://docs.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals
-
-## Miscellaneous/Questions
-
-- discuss error handling in C# (exceptions) vs. Go (returned errors)
-- have a section on "norms" like error handling and "everyone stays updated"?
-- add section of things
+Part Two on this topic is coming soon! 
