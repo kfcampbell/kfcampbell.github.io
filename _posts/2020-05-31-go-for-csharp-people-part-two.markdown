@@ -17,7 +17,7 @@ This is heavily influenced by [A half-hour to learn Rust](https://fasterthanli.m
 
 ## Rapid-fire syntax rundown
 
-Buckle up, because we'll be quickly running through all the syntax you'll need in order to lose thousands of dollars with a bot that calls Robin Hood's undocumented API to trade stocks:
+Seriously, you should skip this post and go do it at [A Tour of Go](https://tour.golang.org). If you're lazy and just want to read, or you want to hear my snarky comments, then fasten your seatbelt:
 
 Create a new variable by using the `:=` operator
 
@@ -85,7 +85,7 @@ for {
 // timeout running program
 ```
 
-If statements are exactly what you'd expect. The Go attitude is no parentheses, no problems.
+If statements are exactly what you'd expect. The Go attitude is "no parentheses, no problems."
 ```go
 x := 0
 
@@ -99,7 +99,12 @@ if x > 0 {
 // please i have kids
 ```
 
-Switch statements are a bit different than C#. Go only allows a single case to be run at once, so you won't see `break` littered throughout the codeblock. 
+Switch statements are a bit different than C#. Go only allows a single case to be run at once, so you won't see `break` littered throughout the codeblock. You can switch on any variable type and even function results:
+```go
+
+x := 
+
+```
 
 
 
