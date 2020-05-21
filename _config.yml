@@ -21,7 +21,7 @@
 title: keegan foss campbell
 email: kfcampbell@github.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Personal blog of Keegan Campbell (@kfcampbell at GitHub). Full of either nothing or nothing much.
+  Personal blog of me, Keegan Campbell. Full of either nothing or nothing much.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://kfcampbell.com" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: keeganfcampbell

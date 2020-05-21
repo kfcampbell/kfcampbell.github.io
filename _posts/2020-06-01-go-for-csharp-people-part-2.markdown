@@ -6,7 +6,7 @@ categories: go golang csharp
 ---
 # Go for C# Developers Part Two: Syntax, Concurrency, and Garbage Collection
 
-It's also somewhat influenced by [A half-hour to learn Rust](https://fasterthanli.me/blog/2020/a-half-hour-to-learn-rust/).
+This is heavily influenced by [A half-hour to learn Rust](https://fasterthanli.me/blog/2020/a-half-hour-to-learn-rust/).
 
 ## In Which We Discuss The Following:
 
