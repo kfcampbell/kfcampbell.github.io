@@ -17,7 +17,7 @@ This is heavily influenced by [A half-hour to learn Rust](https://fasterthanli.m
 
 ## Rapid-fire syntax rundown
 
-Buckle up, because we'll be quickly running through all the syntax you'll need in order to lose thousands of dollars with a bot that calls Robin Hood's undocumented API to trade stocks:
+Seriously, you should skip this post and go see [A Tour of Go](https://tour.golang.org). If you're lazy and just want to read, or you want to hear my snarky comments, then fasten your seatbelt:
 
 Create a new variable by using the `:=` operator
 
@@ -85,7 +85,7 @@ for {
 // timeout running program
 ```
 
-If statements are exactly what you'd expect. The Go attitude is no parentheses, no problems.
+If statements are exactly what you'd expect. The Go attitude is "no parentheses, no problems."
 ```go
 x := 0
 
@@ -94,15 +94,78 @@ if x > 0 {
 } else if x < 0 {
     fmt.Printf("i can't get out of the fmt package")
 } else {
-    fmt.Printf("please i have kids")
+    fmt.Printf("printing is my only hope")
 }
-// please i have kids
+// printing is my only hope
 ```
 
-Switch statements are a bit different than C#. Go only allows a single case to be run at once, so you won't see `break` littered throughout the codeblock. 
+Switch statements are a bit different than C#. Go only allows a single case to be run at once, so you won't see `break` littered throughout the codeblock. You can switch on any variable type and even function results:
+```go
+
+x := "x"
+switch tmp := fmt.Sprintf("%v", x); tmp {
+    case "x":
+        fmt.Printf("an x is an %v is an %v", x, x, x)
+    default:
+        fmt.Printf("this won't happen")
+}
+// an x is an x is an x
+
+```
+
+The `defer` statement is a construct pretty unique to Go (as far as my limited knowledge goes). Calling a function with the `defer` keyword will defer its execution until after wherever it's in returns. Explaining it is hard, but here's an example that'll make it all clear:
+```go
+func ex() int {
+    x := 42
+    defer fmt.Printf("%v", x)
+    x = -1
+    return x
+}
+
+ex()
+// 42
+
+```
+
+You'll commonly see this used for closing database connections or other similar resource cleanup. It's a nice way of making sure you don't have to track down every single codepath to make sure certain tasks are performed. I like to think of it as Go looking out for future @kfcampbell.
+
+Go's only sort-of object-oriented. There's no `class` keyword, so upfront one wonders what's going on, but `struct`s will get you pretty much all the way there. You can declare one like so:
+
+```go
+type Movie struct {
+    ID    int
+    Title string
+}
+
+func (*m Movie) PrintTitleAndId() {
+    fmt.Printf("movie id: %v, title: %v", m.ID, m.Title)
+}
+
+mov := &Movie {
+    ID:     0,
+    Title: "Fantastic Mr. Fox",
+}
+
+fmt.Printf("%v", mov.Title)
+mov.Print
+// Fantastic Mr. Fox
+```
+
+I snuck a couple of extra things into this because ~I'm getting impatient of writing this~ it was a teachable moment. First, note that `gofmt` spaces the declarations of structs out so that they form two nice little columns. [That's pretty neat!](https://www.youtube.com/watch?v=Hm3JodBR-vs). 
+
+Second, you'll note that I initialized the movie struct with an `&` character. That's a convention in Go, although not strictly required in this case. It means that you're creating a _pointer_ to a Movie, and initializing that movie with the following content.
+
+Don't be scared! 
+
+Let me say it again. 
+
+DO. NOT. BE. ALARMED.
+
+Points in Go are very normal and it's pretty difficult to hurt yourself with it (although there is one way. I need to put it in an appendix or something. TODO(kfcampbell))
 
 
 
+Oh! And I almost forgot: we still need to talk about slices.
 
 TODO(kfcampbell) still:
 
