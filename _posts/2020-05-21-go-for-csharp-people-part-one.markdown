@@ -31,7 +31,7 @@ Go was developed at Google, first announced in 2009 and initially released in 20
 - compiled
 - automatically garbage-collected
 
-Go programs compile down to a single binary with all dependencies included. In contrast to C#, no runtime is needed, so applications can be run in very thin containers such as [alpine](https://hub.docker.com/_/alpine/).
+Go programs compile down to a single binary with all dependencies included. In contrast to C#, no runtime is needed, so applications can be run in very thin containers such as [scratch](https://hub.docker.com/_/scratch) or [alpine](https://hub.docker.com/_/alpine/).
 
 In addition, Go has a strong focus on concurrency. 
 
