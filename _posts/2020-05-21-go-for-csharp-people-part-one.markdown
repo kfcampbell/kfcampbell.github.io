@@ -87,17 +87,27 @@ Both Go and C# are:
 
 ## Dependency management
 
+The only Go unit of import/export within a program is the `package`. 
+
+All Go source files must declare a package in their first line, and every Go file must have at least one `package main` file that declares a `func main()`. Other than the file that contains `main`, code must be placed in a directory whose name matches the `package` of files within it. 
+
+As previously mentioned, all uncapitalized members and functions are private, and all capitalized ones are publically visible.
+
+There's none of the [modifier keywords](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/access-modifiers) that C# has, which means you can leave your `private protected`s and `private internal`s on the shelf.
+
+At first glance, this might seem unsophisticated, or too dumbed-down for a "real" language. 
+
+Sleep on it a little bit, and get back to me. It'll sit a little better with you tomorrow, and a little better the day after that.
+
+So you have all these packages...now what?
+
+### Go modules
+
 Dependency management used to be a somewhat contentious subject in the Go ecosystem, with a number of third party solutions attempting to address the gap in this language tooling. 
 
 [v1.11](https://golang.org/doc/go1.11), however, introduced experimental support for Go modules, and [v1.14](https://golang.org/doc/go1.14) (released this February) standardized them as ready for production use.
 
-Before we can get into modules, however, we need to briefly discuss packages. 
-
-All Go source files must declare a package in their first line, and every Go file must have at least one `package main` file that declares a `func main()`. Other than the file that contains `main`, code must be placed in a directory whose name matches the `package` of files within it. 
-
-As previously mentioned, all uncapitalized members and functions are private, and all capitalized ones are publically visible. 
-
-Modules allow reusable packages to be imported using their URL, as in `import github.com/go-sql-driver/mysql`. Interestingly, packages from within a project as well as third party dependencies are imported using _the exact same syntax_. 
+Modules allow packages to be imported using their URL, as in `import github.com/go-sql-driver/mysql`. Interestingly, packages from within a project as well as third party dependencies are imported using _the exact same syntax_. 
 
 Put another way: if a function is public in your code, and your code is accessible, anybody can import and use it! 
 
