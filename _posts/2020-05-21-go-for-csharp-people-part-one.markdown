@@ -41,7 +41,7 @@ For our purposes, it's enough to know that Go "shares memory by communicating", 
 
 This is a large departure from more traditional object-oriented concurrency schemes, in which applications instead "communicate by sharing memory": traditionally multiple threads share a reference to an object, and writes are controlled through a delicate balance of locks and mutexes.
 
-Go is frequently compared to C due to a similar syntax, pointer usage, and relatively un-object-oriented nature. 
+Go is frequently compared to C due to a similar syntax, pointer usage, and lack of class-based inheritance.
 
 However, Go is much safer than C (it's much harder to cut yourself on a sharp pointer) and its concurrency tooling and robust standard library means it offers significant capability on top of vanilla C.
 
