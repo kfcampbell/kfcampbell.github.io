@@ -5,7 +5,7 @@ date: 2020-05-21 00:00:00-0700
 description: In which lies a brief introduction to the Go programming language, primarily geared towards C# people.
 ---
 
-## In Which We Discuss The Following:
+## In which we discuss the following:
 
 - Goals of this blog post
 - Quick Go summary
@@ -13,7 +13,7 @@ description: In which lies a brief introduction to the Go programming language, 
 - Dependency management
 - Brief tooling introduction
 
-## Goals of this Blog Post
+## Goals of this blog post
 
 Welcome! This post assumes working knowledge of C# and it's targetted toward those without Go experience. The aim is to provide just enough of an introduction to the language to make you dangerous :P. 
 
@@ -23,7 +23,7 @@ That being said, there's a couple basic things we have to discuss up front befor
 
 For now, let's start with a brief overview of the language and some of its major design decisions.
 
-## Quick Go Summary
+## Quick Go summary
 
 Go was developed at Google, first announced in 2009 and initially released in 2012. The language is:
 
@@ -64,7 +64,7 @@ All of these decisions require every developer to either get with the program or
 
 ## Basic similarities and differences
 
-### Same-Same
+### Same-same
 
 Both Go and C# are:
 
@@ -75,7 +75,7 @@ Both Go and C# are:
     - in Go, typically no changes are needed to support a binary e.g. compiled on macOS but running in Linux in production
 - include robust standard libraries
 
-### But Different
+### But different
 
 - Go has no runtime required (like the [.NET CLR](https://docs.microsoft.com/en-us/dotnet/standard/clr))
 - Go has no generics
@@ -175,6 +175,6 @@ In practice, that looks something like `~/go/src/github.com/github/hub`. For tho
 
 If you've done everything right, you can `cd` to that directory and run `go run main.go`, and you'll be able to see the string output to stdout.
 
-## That's It For Now
+## That's it for now!
 
 Part Two on this topic is coming soon! If you're interested, I can be reached [@kfcampbell on GitHub](https://github.com/kfcampbell) or [@keeganfcampbell on Twitter](https://twitter.com/keeganfcampbell), because apparently that's a thing I have now.
