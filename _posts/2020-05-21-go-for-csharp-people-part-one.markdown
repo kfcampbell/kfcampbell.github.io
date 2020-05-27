@@ -57,7 +57,7 @@ Many of the attributes discussed above also make Go a reliable choice for automa
 
 Go is a highly opinionated language. 
 
-All Go source code is formatted the same, thanks to the `gofmt` command. Uncapitalized members are always kept private, whereas capitalized ones are public (there are no `public`/`private` modifier keywords!). There is no concept of inheritance; instead the language enforces composition. 
+All Go source code is formatted the same, thanks to the `gofmt` command. Uncapitalized members are always kept private, whereas capitalized ones are public (there are no `public`/`private` modifier keywords!). There is no concept of inheritance; instead the language promotes composition via a lightweight mechanism known as embedding.
 
 All of these decisions require every developer to either get with the program or leave, but once you re-align your thinking to the Go way of doing things, it allows for a surprising amount of speed and freedom. 
 
