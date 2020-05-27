@@ -95,6 +95,8 @@ As previously mentioned, all uncapitalized members and functions are private, an
 
 There's none of the [modifier keywords](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/access-modifiers) that C# has, which means you can leave your `private protected`s and `private internal`s on the shelf.
 
+In Go, there is only "private to your package"- and "exported to the world"-levels of privacy.
+
 At first glance, this might seem unsophisticated, or too dumbed-down for a "real" language. 
 
 Sleep on it a little bit, and get back to me. It'll sit a little better with you tomorrow, and a little better the day after that.
