@@ -39,7 +39,9 @@ The approach it takes is a version of [Communicating Sequential Processes](https
 
 For our purposes, it's enough to know that Go "shares memory by communicating", in which various concurrent processes called "goroutines" pass objects between them. 
 
-This is a large departure from more traditional object-oriented concurrency schemes, in which applications instead "communicate by sharing memory": traditionally multiple threads share a reference to an object, and writes are controlled through a delicate balance of locks and mutexes.
+This is a large departure from more traditional object-oriented concurrency schemes, in which applications instead "communicate by sharing memory": traditionally multiple threads share a reference to an object, and writes are controlled through a delicate balance of locks and mutexes. 
+
+If this hasn't sunk in yet, don't worry! I will post a follow-up to this post soon that gets more into Go's concurrency models.
 
 Go is frequently compared to C due to a similar syntax, pointer usage, and lack of class-based inheritance.
 
