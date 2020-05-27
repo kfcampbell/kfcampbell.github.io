@@ -25,7 +25,7 @@ For now, let's start with a brief overview of the language and some of its major
 
 ## Quick Go summary
 
-Go was developed at Google, first announced in 2009 and initially released in 2012. The language is:
+Go was developed at Google, first [announced in 2009](https://www.youtube.com/watch?v=rKnDgT73v8s) and initially [released in 2012](https://blog.golang.org/go1). The language is:
 
 - statically-typed
 - compiled
