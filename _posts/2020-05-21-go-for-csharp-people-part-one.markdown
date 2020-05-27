@@ -99,7 +99,7 @@ At first glance, this might seem unsophisticated, or too dumbed-down for a "real
 
 Sleep on it a little bit, and get back to me. It'll sit a little better with you tomorrow, and a little better the day after that.
 
-So you have all these packages...now what?
+So you have some packages your project depends on...now what?
 
 ### Go modules
 
