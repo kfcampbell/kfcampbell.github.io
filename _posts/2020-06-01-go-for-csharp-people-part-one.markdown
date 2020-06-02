@@ -127,7 +127,7 @@ Put another way: if a function is public in your code, and your code is accessib
 
 This can lead to some weird issues [like this one](https://github.com/github/hub/issues/2517#issuecomment-615531677), in which parts of an application are consumed as a library by other applications.
 
-Similar to Nuget packages (and unlike Node modules), modules are cached at a user level and not at a repository level. Somewhat like a `Nuget.config` file, module dependencies are declared in a `go.mod` file  in the project's root. The syntax for this file is as follows:
+Similar to Nuget packages (and unlike Node modules), modules are cached at a user level and not at a repository level (unless you've enabled vendoring, but that's a topic for another time). Somewhat like a `Nuget.config` file, module dependencies are declared in a `go.mod` file in the project's root. The syntax for this file is as follows:
 
 ```go
 module github.com/github/go-sample-service
