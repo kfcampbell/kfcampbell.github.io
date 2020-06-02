@@ -91,7 +91,7 @@ Both Go and C# are:
 - Go has no runtime (like the [.NET CLR](https://docs.microsoft.com/en-us/dotnet/standard/clr)) required
 - Go has no generics
     - You'll find yourself freqently writing small bits of code for operations that would be trivial LINQ statements
-    - This is a consistent paint point for the Go community
+    - This is a consistent pain point for the Go community
     - See [here](https://go.googlesource.com/proposal/+/master/design/go2draft-generics-overview.md) for a proposal to add generics from language designer Russ Cox
 - Go returns errors which are then checked by the caller, rather than try/catch blocks and exceptions for error handling
 - Go has no concept of `await`ing an action (more on this later)
