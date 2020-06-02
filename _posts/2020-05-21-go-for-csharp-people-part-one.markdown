@@ -31,7 +31,7 @@ Go was developed at Google, first [announced in 2009](https://www.youtube.com/wa
 - compiled
 - automatically garbage-collected
 
-Go programs compile down to a single binary with all dependencies included. In contrast to C#, no runtime is needed, so applications can be run in very thin containers such as [scratch](https://hub.docker.com/_/scratch) or [alpine](https://hub.docker.com/_/alpine/).
+Go programs compile down to a single binary with all dependencies included. In contrast to C#, no runtime is needed, so applications may run in very thin containers such as [scratch](https://hub.docker.com/_/scratch) or [alpine](https://hub.docker.com/_/alpine/).
 
 In addition, Go has a strong focus on concurrency. 
 
@@ -45,13 +45,13 @@ If this hasn't sunk in yet, don't worry! I will post a follow-up to this post so
 
 Go is frequently compared to C due to a similar syntax, pointer usage, and lack of class-based inheritance.
 
-However, Go is much safer than C (it's much harder to cut yourself on a sharp pointer) and its concurrency tooling and robust standard library means it offers significant capability on top of vanilla C.
+However, Go is much safer than C (it's much harder to cut yourself on a sharp pointer) and its concurrency tooling and robust standard library indicate significant capability on top of vanilla C.
 
-Go tends to align well with a couple of different use cases. Its small binary size, concurrency tooling, and fast execution speed means it's frequently used for high-volume distributed webservices, most frequently ones that speak RPC but RESTful services as well. 
+Go tends to align well with a couple of different use cases. Its small binary size, aforementioned concurrency mechanisms, and fast execution speed means it's frequently chosen for high-volume distributed webservices, most frequently ones that speak RPC (especially gRPC and Twirp) but RESTful services as well. 
 
 Some of these factors also make it useful for writing CLIs or interactive tools for testing services. You'll commonly see a simple CLI included with a Twirp service for testing purposes here at GitHub.
 
-Go plays pretty nicely with C, and includes functionality that both lets applications call C code from Go, and export Go code to C standard libraries (which can then be called by numerous other languages, including C, Node, Python, Java, and Ruby). 
+Go plays pretty nicely with C, and includes functionality that both lets applications call C code from Go, and also export Go code to C standard libraries (which can then be called by numerous other languages, including C, Node, Python, Java, and Ruby). 
 
 For this reason, it's a common choice when writing libraries and frameworks, even ones that need to integrate with other languages.
 
@@ -59,7 +59,7 @@ Many of the attributes discussed above also make Go a reliable choice for automa
 
 Go is a highly opinionated language: 
 
-All Go source code is formatted the same, thanks to the `gofmt` command. This is a bold language decision and it's given programmers the ability to read and comprehend new code quickly.
+All Go source code is formatted the same, thanks to the `gofmt` command: a bold (and unprecedented?) language decision that has given programmers the ability to read and comprehend new code quickly.
 
 It also supports tools that manipulate and operate on source code, and allows for high-quality generated code.
 
@@ -90,6 +90,7 @@ Both Go and C# are:
 
 - Go has no runtime (like the [.NET CLR](https://docs.microsoft.com/en-us/dotnet/standard/clr)) required
 - Go has no generics
+    - You'll find yourself freqently writing small bits of code for operations that would be trivial LINQ statements
     - This is a consistent paint point for the Go community
     - See [here](https://go.googlesource.com/proposal/+/master/design/go2draft-generics-overview.md) for a proposal to add generics from language designer Russ Cox
 - Go returns errors which are then checked by the caller, rather than try/catch blocks and exceptions for error handling
@@ -150,9 +151,9 @@ Similar to a `package.json` (although NOT a lockfile, it contains enough informa
 
 ## Brief tooling introduction
 
-Development in Go is heavily reliant on a few tools I'll provide a brief overview of here. 
+Go development heavily relies on a few tools I'll provide a brief overview of here. 
 
-To see all the tools and their documentation, run `go help` and then `go <command> help` at your terminal. For now, what you need to know are the following:
+To see all the tools and their documentation, run `go help` and then `go help <command>` at your terminal. For now, what you need to know are the following:
 
 - `go get`
     - Adds and installs dependencies to your current project
@@ -161,7 +162,7 @@ To see all the tools and their documentation, run `go help` and then `go <comman
     - Compiles packages and dependencies
     - Example use: `go build ./...` to recursively build every package in the current directory
 - `go run`
-    - Compiles _and_ runs a Go program
+    - Compiles _and_ runs a Go program with a main package
     - Example use: `go run cmd/twirp/main.go` in the [go-sample-service](https://github.com/github/go-sample-service)
 - `gofmt`
     - Will reformat source code in your package
