@@ -15,7 +15,7 @@ description: In which lies a brief introduction to the Go programming language, 
 
 ## Goals of this blog post
 
-Welcome! This post assumes working knowledge of C# and it's targetted toward those without Go experience. The aim is to provide just enough of an introduction to the language to make you dangerous :P. 
+Welcome! This post assumes working knowledge of C# and it's targeted toward those without Go experience. The aim is to provide just enough of an introduction to the language to make you dangerous :P. 
 
 When I start learning a new language, I tend to learn best by doing - that is, I like to experiment and make the dumb mistakes myself, before the deeper lessons sink in, and I'd like to make this the sort of blog post I wish I had when I was learning Go for the first time.
 
@@ -76,6 +76,9 @@ Both Go and C# are:
 - support multiple platforms
     - in Go, typically no changes are needed to support a binary e.g. compiled on macOS but running in Linux in production
 - include robust standard libraries
+- strong compatibility guarantee
+    - [.NET apps for the most part work on later versions of .NET](https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/version-compatibility#backward-compatibility)
+    - [all Go programs are guaranteed to work with later releases of Go](https://golang.org/doc/go1compat)
 
 ### But different
 
@@ -85,7 +88,7 @@ Both Go and C# are:
     - See [here](https://go.googlesource.com/proposal/+/master/design/go2draft-generics-overview.md) for a proposal to add generics from language designer Russ Cox
 - Go returns errors which are then checked by the caller, rather than try/catch blocks and exceptions for error handling
 - Go has no concept of `await`ing an action (more on this later)
-- Go places a strong emphasis on staying up to date with the language, in constrast to the fragmentation in the .NET and .NET Core ecosystems
+- Go places a strong emphasis on staying up to date with the language, in contrast to the fragmentation in the .NET and .NET Core ecosystems
 
 ## Dependency management
 
@@ -93,7 +96,7 @@ The only Go unit of import/export within a program is the `package`.
 
 All Go source files must declare a package in their first line, and every Go file must have at least one `package main` file that declares a `func main()`. Other than the file that contains `main`, code must be placed in a directory whose name matches the `package` of files within it. 
 
-As previously mentioned, all uncapitalized members and functions are private, and all capitalized ones are publically visible.
+As previously mentioned, all uncapitalized members and functions are private, and all capitalized ones are publicly visible.
 
 There's none of the [modifier keywords](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/access-modifiers) that C# has, which means you can leave your `private protected`s and `private internal`s on the shelf.
 
