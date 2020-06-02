@@ -57,7 +57,7 @@ For this reason, it's a common choice when writing libraries and frameworks, eve
 
 Many of the attributes discussed above also make Go a reliable choice for automation, monitoring, and data processing tools. For more information on what the Go community is using the language for, you can view the results of the [yearly developer survey](https://blog.golang.org/survey2019-results).
 
-Go is a highly opinionated language. 
+Go is a highly opinionated language: 
 
 All Go source code is formatted the same, thanks to the `gofmt` command. Uncapitalized members are always kept private, whereas capitalized ones are public (there are no `public`/`private` modifier keywords!). There is no concept of inheritance; instead the language promotes composition via a lightweight mechanism known as embedding.
 
@@ -82,19 +82,19 @@ Both Go and C# are:
 
 ### But different
 
-- Go has no runtime required (like the [.NET CLR](https://docs.microsoft.com/en-us/dotnet/standard/clr))
+- Go has no runtime (like the [.NET CLR](https://docs.microsoft.com/en-us/dotnet/standard/clr)) required
 - Go has no generics
     - This is a consistent paint point for the Go community
     - See [here](https://go.googlesource.com/proposal/+/master/design/go2draft-generics-overview.md) for a proposal to add generics from language designer Russ Cox
 - Go returns errors which are then checked by the caller, rather than try/catch blocks and exceptions for error handling
 - Go has no concept of `await`ing an action (more on this later)
-- Go places a strong emphasis on staying up to date with the language, in contrast to the fragmentation in the .NET and .NET Core ecosystems
+- Go places a strong emphasis on its applications staying up to date with the language, in contrast to the fragmentation in the .NET and .NET Core ecosystems
 
 ## Dependency management
 
 The only Go unit of import/export within a program is the `package`. 
 
-All Go source files must declare a package in their first line, and every Go file must have at least one `package main` file that declares a `func main()`. Other than the file that contains `main`, code must be placed in a directory whose name matches the `package` of files within it. 
+All Go source files must declare a package in their first line, and every Go application must have at least one `package main` file that declares a `func main()`. Other than the file that contains `main`, code must be placed in a directory whose name matches the `package` of files within it. 
 
 As previously mentioned, all uncapitalized members and functions are private, and all capitalized ones are publicly visible.
 
@@ -106,9 +106,9 @@ At first glance, this might seem unsophisticated, or too dumbed-down for a "real
 
 Sleep on it a little bit, and get back to me. It'll sit a little better with you tomorrow, and a little better the day after that.
 
-So you have some packages your project depends on...now what?
-
 ### Go modules
+
+So you have some packages your project depends on...now what?
 
 Dependency management used to be a somewhat contentious subject in the Go ecosystem, with a number of third party solutions attempting to address the gap in this language tooling. 
 
