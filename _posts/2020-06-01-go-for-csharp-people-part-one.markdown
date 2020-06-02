@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Go for C# People, Part One: The Overview"
-date: 2020-05-21 00:00:00-0700
+date: 2020-06-01 00:00:00-0700
 description: In which lies a brief introduction to the Go programming language, primarily geared towards C# people.
 ---
 
