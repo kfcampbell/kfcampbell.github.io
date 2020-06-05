@@ -28,7 +28,28 @@ func main() {
 }
 ```
 
-That's not too spooky. Let's get a little wild with Mr. Pike's `new` keyword:
+That's not too spooky. We can switch it up a bit so that we initialize the object without providing a value for `Text`, and then set that later:
+
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type ContrivedExample struct {
+	Text string
+}
+
+func main() {
+    ex := &ContrivedExample{}
+    ex.Text = "This feels familiar."
+	fmt.Printf(ex.Text) // This feels familiar.
+}
+```
+
+Now let's get a little wild with Mr. Pike's `new` keyword:
 
 ```go
 package main
@@ -49,7 +70,7 @@ func main() {
 }
 ```
 
-That's crazy! Also it might be a good way to annoy coworkers in your next code review.
+That's crazy! It looks weird to me to see that in a working Go program. Also it might be a good way to annoy coworkers in your next code review.
 
 So...what's the story here? What's going on under the hood?
 
@@ -63,7 +84,7 @@ For a while they were explicit, but that got kind of uncomfortable, so eventuall
 
 People ("they", in a really broad hand-wavy sense), frequently compare Go to C...I just checked, and it turns out [I'm one of those people now](https://kfcampbell.com/blog/2020/go-for-csharp-people-part-one/). Well, if you can't beat them, then join them.
 
-Anyways, 
+Anyways,
 
 
 P.S. Throughout the entire length of this post, I've been trying to work in the language "Don't hate, allocate" in a clever manner and I've failed to do so.
