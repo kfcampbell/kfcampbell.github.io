@@ -84,7 +84,69 @@ For a while they were explicit, but that got kind of uncomfortable, so eventuall
 
 People ("they", in a really broad hand-wavy sense), frequently compare Go to C...I just checked, and it turns out [I'm one of those people now](https://kfcampbell.com/blog/2020/go-for-csharp-people-part-one/). Well, if you can't beat them, then join them.
 
-Anyways,
+Anyways, we've stumbled upon a pretty large difference in between the two languages here: 
+
+Go uses the `new` keyword (or its suspiciously sugary syntax shortcut, `&`) for _direct_ memory allocation: primitives, structs, any type you define.
+
+Go uses the `make` keyword for certain types that require Go magic to work with easily. 
+
+Maps and slices are the two easiest representations of this, although the same holds true of channels. 
+
+What happens if we try to use the `new` keyword to instantiate a slice? Well, the compiler gets angry:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	ex := new([]int)
+	fmt.Printf("%T\n", ex) // would print: *[]int
+	ex = append(ex, 42) // invalid argument: ex (variable of type *[]int) is not a slice
+
+	fmt.Printf("%v\n", ex[0]) // invalid operation: cannot index ex (variable of type *[]int)
+}
+```
+
+Aha! We're getting a little closer: it turns out that `new` returns a _pointer_ to whatever type you want to create.
+
+But that same code works just fine when we create it with `make`:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	ex := make([]int, 0)
+	fmt.Printf("%T\n", ex) // int[]
+	ex = append(ex, 42)
+
+	fmt.Printf("%v\n", ex[0]) // 42
+}
+```
+
+And `make` returns a slice, not a pointer to it. Why?
+
+A pointer is only a location to a specific location in memory. It's as close as you can get to the direct bits of your variable.
+
+What's going on with the `make` command, then? What's Rob Pike crafting back there, hiding behind the scenes and working his magic with your variable allocations?
+
+Welllllllll, slices need a little bit of magic to work correctly. They're suspiciously always ready to accept new items, even though arrays cannot be resized.
+
+As so many programmers before them, Go designers rely on an extra layer of abstraction to run slices smoothly.
+
+I took a slice out back and popped the hood, and it turns out the structure of a slice is like so:
+
+TODO(kfcampbell): make a pretty diagram and put it here
+
+
+
+
 
 
 P.S. Throughout the entire length of this post, I've been trying to work in the language "Don't hate, allocate" in a clever manner and I've failed to do so.
