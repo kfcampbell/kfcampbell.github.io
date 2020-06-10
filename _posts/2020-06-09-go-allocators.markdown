@@ -144,9 +144,16 @@ I took a slice out back and popped the hood, and it turns out the structure of a
 
 TODO(kfcampbell): make a pretty diagram and put it here
 
+If we [read the source code of the allocator](https://github.com/golang/go/blob/7b872b6d955d3e749ea62dbfced68ab5c61eae91/src/builtin/builtin.go#L172), this is described a bit further:
+
+```go
+// The make built-in function allocates and initializes an object of type
+// slice, map, or chan (only). Like new, the first argument is a type, not a
+// value. Unlike new, make's return type is the same as the type of its
+// argument, not a pointer to it. 
+```
+
+Is there a moral to this story? Not really, no. I just thought it was interesting and decided to write about it. If you've made it this far, congratulations! 
 
 
-
-
-
-P.S. Throughout the entire length of this post, I've been trying to work in the language "Don't hate, allocate" in a clever manner and I've failed to do so.
+P.S. Throughout the entire length of this post, I've been trying to work in the language "Don't hate, allocate" in a clever manner and I've failed to do so. If you can think of a better way to do it, please get [@keeganfcampbell](https://twitter.com/keeganfcampbell) on Twitter.
