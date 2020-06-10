@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Go for C# People, Part One: The Overview"
+title: "Go Allocators"
 date: 2020-06-01 00:00:00-0700
-description: In which lies a brief introduction to the Go programming language, primarily geared towards C# people.
+description: Our fearless heroes talk about memory allocation in Go.
 ---
 
 I was driving and listening to [episode 100 of the Go Time podcast](https://changelog.com/gotime/100) the other day, and heard something from language creator Rob Pike that gave me pause: there's actually two allocators in Go, `new` and `make`. 
@@ -44,7 +44,7 @@ type ContrivedExample struct {
 
 func main() {
     ex := &ContrivedExample{}
-    ex.Text = "This feels familiar."
+	ex.Text = "This feels familiar."
 	fmt.Printf(ex.Text) // This feels familiar.
 }
 ```
