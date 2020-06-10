@@ -43,7 +43,7 @@ type ContrivedExample struct {
 }
 
 func main() {
-    ex := &ContrivedExample{}
+	ex := &ContrivedExample{}
 	ex.Text = "This feels familiar."
 	fmt.Printf(ex.Text) // This feels familiar.
 }
