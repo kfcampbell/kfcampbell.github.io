@@ -142,7 +142,12 @@ As so many programmers before them, Go designers rely on an extra layer of abstr
 
 I took a slice out back and popped the hood, and it turns out the structure of a slice is like so:
 
-TODO(kfcampbell): make a pretty diagram and put it here
+<div class="img_row">
+    <img class="col three" src="{{ site.baseurl }}/assets/img/slice_header.jpg">
+</div>
+<div class="col three caption">
+    I'm sorry, I really tried to draw a decent row of blocks for that array. I'm not spacially gifted.
+</div>
 
 If we [read the source code of the allocator](https://github.com/golang/go/blob/7b872b6d955d3e749ea62dbfced68ab5c61eae91/src/builtin/builtin.go#L172), this is described a bit further:
 
