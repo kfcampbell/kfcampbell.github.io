@@ -1,8 +1,8 @@
 ---
 layout: post
 title: "Go Allocators"
-date: 2020-06-01 00:00:00-0700
-description: Our fearless heroes talk about memory allocation in Go.
+date: 2020-06-09 00:00:00-0700
+description: In which we sit around the campfire and tell scary stories about Go memory allocation.
 ---
 
 I was driving and listening to [episode 100 of the Go Time podcast](https://changelog.com/gotime/100) the other day, and heard something from language creator Rob Pike that gave me pause: there's actually two allocators in Go, `new` and `make`. 
@@ -141,6 +141,25 @@ If you pop the hood, the structure of a slice looks like this:
 <div class="col three caption">
     I'm sorry, I really tried to draw a decent row of blocks for that array. I'm not spacially gifted.
 </div>
+
+When you insert an item past the end of the slice's underlying array, Go will create a new, larger underlying array for you and copy the contents over. You can see this reflected in the slices `capacity` value:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	ex := make([]int, 0)
+	fmt.Printf("length: %v, capacity: %v\n", len(ex), cap(ex)) // length: 0, capacity: 0
+	ex = append(ex, 42)
+	fmt.Printf("length: %v, capacity: %v\n", len(ex), cap(ex)) // length: 1, capacity: 1
+	ex = append(ex, 43)
+	fmt.Printf("length: %v, capacity: %v\n", len(ex), cap(ex)) // length: 2, capacity: 2
+	ex = append(ex, 44)
+	fmt.Printf("length: %v, capacity: %v\n", len(ex), cap(ex)) // length: 3, capacity: 4
+}
+```
 
 Interestingly, the slice header is made up of two _values_, the length and capacity, and one _pointer_, to the underlying array.
 
