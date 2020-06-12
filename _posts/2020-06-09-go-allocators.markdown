@@ -135,12 +135,11 @@ Slices need a little bit more magic to work correctly. Just how are they suspici
 
 If you pop the hood, the structure of a slice looks like this:
 
-<div class="img_row">
-    <img class="col three" src="{{ site.baseurl }}assets/img/slice_header.png">
-</div>
+<img class="col three" src="{{ site.baseurl }}assets/img/slice_header.png">
 <div class="col three caption">
     I'm sorry, I really tried to draw a decent row of blocks for that array. I'm not spacially gifted.
 </div>
+<br/>
 
 When you insert an item past the end of the slice's underlying array, Go will create a new, larger underlying array for you and copy the contents over. You can see this reflected in the slices `capacity` value:
 
