@@ -49,7 +49,7 @@ func main() {
 }
 ```
 
-Now let's get a little wild with Mr. Pike's `new` keyword:
+Now let's take the `new` keyword for a spin:
 
 ```go
 package main
