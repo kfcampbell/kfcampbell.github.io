@@ -72,25 +72,22 @@ func main() {
 
 That's crazy! It looks weird to me to see that in a working Go program. Also it might be a good way to annoy coworkers in your next code review.
 
-So...what's the story here? What's going on under the hood?
-
-Well, let's listen to Mr. Pike a bit more:
-
-```markdown
-Both maps and slices have the property, which is not true of anything in C, at least at the base level, which is that the memory representation is somewhat hidden from the user. They come with a more complex structure to hold the length of the array, or the hash buckets for the map, or whatever. And in C you never have anything like that at the basic level language… So that was a challenge. It turned out to be a challenge later, because in order to make slices and maps work properly, they have to be passed as the address of that in a descriptor block, and we struggled with how to best hide those pointers from the user.
-
-For a while they were explicit, but that got kind of uncomfortable, so eventually we just broke down and made them completely hidden. But to do that, we kind of had to change the way memory allocation worked a bit, which is why there’s two allocators - new and make. And I was never happy with that; I don’t think anybody was really happy with how it all worked out…
-```
-
-People ("they", in a really broad hand-wavy sense), frequently compare Go to C...I just checked, and it turns out [I'm one of those people now](https://kfcampbell.com/blog/2020/go-for-csharp-people-part-one/). Well, if you can't beat them, then join them.
-
-Anyways, we've stumbled upon a pretty large difference in between the two languages here: 
-
 Go uses the `new` keyword (or its suspiciously sugary syntax shortcut, `&`) for _direct_ memory allocation: primitives, structs, any type you define.
 
-Go uses the `make` keyword for certain types that require Go magic to work with easily. 
+So let's take a peek next at `make`:
 
-Maps and slices are the two easiest representations of this, although the same holds true of channels. 
+Go uses the `make` keyword for three certain types that require Go magic to work with easily: 
+
+If we [read the source code of the allocator](https://github.com/golang/go/blob/7b872b6d955d3e749ea62dbfced68ab5c61eae91/src/builtin/builtin.go#L172), we can see this described:
+
+```go
+// The make built-in function allocates and initializes an object of type
+// slice, map, or chan (only). Like new, the first argument is a type, not a
+// value. Unlike new, make's return type is the same as the type of its
+// argument, not a pointer to it. 
+```
+
+For the sake of simplicity, we'll focus on slices for the rest of this post.
 
 What happens if we try to use the `new` keyword to instantiate a slice? Well, the compiler gets angry:
 
@@ -130,17 +127,13 @@ func main() {
 }
 ```
 
-And `make` returns a slice, not a pointer to it. Why?
+And like the docs state, `make` returns a slice, not a pointer to it. Why?
 
 A pointer is only a location to a specific location in memory. It's as close as you can get to the direct bits of your variable.
 
-What's going on with the `make` command, then? What's Rob Pike crafting back there, hiding behind the scenes and working his magic with your variable allocations?
+Slices need a little bit more magic to work correctly. Just how are they suspiciously always ready to accept new items, even though arrays cannot be resized?
 
-Welllllllll, slices need a little bit of magic to work correctly. They're suspiciously always ready to accept new items, even though arrays cannot be resized.
-
-As so many programmers before them, Go designers rely on an extra layer of abstraction to run slices smoothly.
-
-I took a slice out back and popped the hood, and it turns out the structure of a slice is like so:
+If you pop the hood, the structure of a slice looks like this:
 
 <div class="img_row">
     <img class="col three" src="{{ site.baseurl }}/assets/img/slice_header.jpg">
@@ -149,16 +142,62 @@ I took a slice out back and popped the hood, and it turns out the structure of a
     I'm sorry, I really tried to draw a decent row of blocks for that array. I'm not spacially gifted.
 </div>
 
-If we [read the source code of the allocator](https://github.com/golang/go/blob/7b872b6d955d3e749ea62dbfced68ab5c61eae91/src/builtin/builtin.go#L172), this is described a bit further:
+Interestingly, the slice header is made up of two _values_, the length and capacity, and one _pointer_, to the underlying array.
+
+This can lead to weird effects, like this example from [Rob Pike's post on slices](https://blog.golang.org/slices), reproduced here for convenience because I can't figure out how to directly link to the example itself: 
 
 ```go
-// The make built-in function allocates and initializes an object of type
-// slice, map, or chan (only). Like new, the first argument is a type, not a
-// value. Unlike new, make's return type is the same as the type of its
-// argument, not a pointer to it. 
+package main
+
+import (
+	"fmt"
+)
+
+func Extend(slice []int, element int) []int {
+    n := len(slice)
+    slice = slice[0 : n+1]
+    slice[n] = element
+    return slice
+}
+
+func main() {
+    var iBuffer [10]int
+    slice := iBuffer[0:0]
+    for i := 0; i < 20; i++ {
+        slice = Extend(slice, i)
+        fmt.Println(slice)
+    }
+}
+/*
+[0]
+[0 1]
+[0 1 2]
+[0 1 2 3]
+[0 1 2 3 4]
+[0 1 2 3 4 5]
+[0 1 2 3 4 5 6]
+[0 1 2 3 4 5 6 7]
+[0 1 2 3 4 5 6 7 8]
+[0 1 2 3 4 5 6 7 8 9]
+panic: runtime error: slice bounds out of range [:11] with capacity 10
+
+goroutine 1 [running]:
+main.Extend(...)
+	/Users/kfcampbell/go/src/github.com/kfcampbell/go-experiments/main.go:9
+main.main()
+	/Users/kfcampbell/go/src/github.com/kfcampbell/go-experiments/main.go:18 +0x100
+exit status 2
+*/
 ```
 
-Is there a moral to this story? Not really, no. I just thought it was interesting and decided to write about it. If you've made it this far, congratulations! 
+Why is this significant? 
 
+It's important to remember when copying or creating slices that while the array portion is passed by reference, the values for the length and capacity aren't. It may help you avoid an ugly panic in the future [unlike this poor child](https://preview.redd.it/oepz8q6lopy41.png?width=538&auto=webp&s=1e0901f3b884b2b636691f50ecb5fff068b8d2b3).
 
-P.S. Throughout the entire length of this post, I've been trying to work in the language "Don't hate, allocate" in a clever manner and I've failed to do so. If you can think of a better way to do it, please get [@keeganfcampbell](https://twitter.com/keeganfcampbell) on Twitter.
+Is there a moral to this whole story? Not really, no.
+
+Or maybe, there's a couple of small ones, like "you should know Go has two allocators", or "slices are made up of a pointer to an array, and integer values for length and capacity", or "Keegan can't draw to save his life". 
+
+Regardless, I thought it was interesting and wanted to write about it. If you've made it this far, congratulations! I hope you learned something.
+
+P.S. Throughout the entire length of this post, I've been trying to work in the language "Don't hate, allocate" in a clever manner and I've failed to do so. If you can think of a better way to do it, please get at me [@keeganfcampbell](https://twitter.com/keeganfcampbell) on Twitter.
