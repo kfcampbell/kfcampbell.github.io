@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Go Allocators"
-date: 2020-06-09 00:00:00-0700
+date: 2020-06-18 00:00:00-0700
 description: In which we sit around the campfire and tell scary stories about Go memory allocation.
 ---
 
