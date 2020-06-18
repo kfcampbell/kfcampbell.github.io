@@ -74,11 +74,11 @@ That's crazy! It looks weird to me to see that in a working Go program. Also it 
 
 Go uses the `new` keyword (or its suspiciously sugary syntax shortcut, `&`) for _direct_ memory allocation: primitives, structs, any type you define.
 
-So let's take a peek next at `make`:
+So let's take a peek next at `make` next.
 
 Go uses the `make` keyword for three certain types that require Go magic to work with easily: 
 
-If we [read the source code of the allocator](https://github.com/golang/go/blob/7b872b6d955d3e749ea62dbfced68ab5c61eae91/src/builtin/builtin.go#L172), we can see this described:
+If we [read the docs](https://github.com/golang/go/blob/7b872b6d955d3e749ea62dbfced68ab5c61eae91/src/builtin/builtin.go#L172) in the source code of the allocator, we can see this described:
 
 ```go
 // The make built-in function allocates and initializes an object of type
@@ -87,9 +87,7 @@ If we [read the source code of the allocator](https://github.com/golang/go/blob/
 // argument, not a pointer to it. 
 ```
 
-For the sake of simplicity, we'll focus on slices for the rest of this post.
-
-What happens if we try to use the `new` keyword to instantiate a slice? Well, the compiler gets angry:
+What happens if we try to use the `new` keyword to instantiate a slice, for example? Well, the compiler gets angry:
 
 ```go
 package main
@@ -100,7 +98,7 @@ import (
 
 func main() {
 	ex := new([]int)
-	fmt.Printf("%T\n", ex) // would print: *[]int
+	fmt.Printf("%T\n", ex) // would print *[]int if this compiled
 	ex = append(ex, 42) // invalid argument: ex (variable of type *[]int) is not a slice
 
 	fmt.Printf("%v\n", ex[0]) // invalid operation: cannot index ex (variable of type *[]int)
@@ -109,7 +107,7 @@ func main() {
 
 Aha! We're getting a little closer: it turns out that `new` returns a _pointer_ to whatever type you want to create.
 
-But that same code works just fine when we create it with `make`:
+But that same code works just fine when we try it with `make`:
 
 ```go
 package main
@@ -129,19 +127,11 @@ func main() {
 
 And like the docs state, `make` returns a slice, not a pointer to it. Why?
 
-A pointer is only a location to a specific location in memory. It's as close as you can get to the direct bits of your variable.
+A pointer is only a location to a specific location in memory. It's as close as you can get to the direct memory location of your variable.
 
-Slices need a little bit more magic to work correctly. Just how are they suspiciously always ready to accept new items, even though arrays cannot be resized?
+Slices, maps, and channels need a little bit more magic to work correctly. 
 
-If you pop the hood, the structure of a slice looks like this:
-
-<img class="col three" src="{{ site.baseurl }}assets/img/slice_header.png">
-<div class="col three caption">
-    I'm sorry, I really tried to draw a decent row of blocks for that array. I'm not spacially gifted.
-</div>
-<br/>
-
-When you insert an item past the end of the slice's underlying array, Go will create a new, larger underlying array for you and copy the contents over. You can see this reflected in the slices `capacity` value:
+Incidentally, _slicing_ an array returns a slice type as well:
 
 ```go
 package main
@@ -149,68 +139,59 @@ package main
 import "fmt"
 
 func main() {
-	ex := make([]int, 0)
-	fmt.Printf("length: %v, capacity: %v\n", len(ex), cap(ex)) // length: 0, capacity: 0
-	ex = append(ex, 42)
-	fmt.Printf("length: %v, capacity: %v\n", len(ex), cap(ex)) // length: 1, capacity: 1
-	ex = append(ex, 43)
-	fmt.Printf("length: %v, capacity: %v\n", len(ex), cap(ex)) // length: 2, capacity: 2
-	ex = append(ex, 44)
-	fmt.Printf("length: %v, capacity: %v\n", len(ex), cap(ex)) // length: 3, capacity: 4
+	ex := make([]int, 50, 100)
+	fmt.Printf("%T\n", ex) // []int
+
+	why := new([100]int)
+	fmt.Printf("%T\n", why) // *[100]int
+
+	zee := new([100]int)[0:50]
+	fmt.Printf("%T\n", zee) // []int
 }
 ```
 
-Interestingly, the slice header is made up of two _values_, the length and capacity, and one _pointer_, to the underlying array.
+Note that `why`'s type `*[100]int` reflects both a pointer to a specific location and not the object itself, and a given size for the length of the (fixed) array.
 
-This can lead to weird effects, like this example from [Rob Pike's post on slices](https://blog.golang.org/slices), reproduced here for convenience because I can't figure out how to directly link to the example itself: 
+Anyways, we were looking at the difference between `make` and `new`, so let's read some source code. [new](https://github.com/golang/go/blob/master/src/runtime/malloc.go#L1192) is implemented like so:
 
 ```go
-package main
-
-import (
-	"fmt"
-)
-
-func Extend(slice []int, element int) []int {
-    n := len(slice)
-    slice = slice[0 : n+1]
-    slice[n] = element
-    return slice
+// implementation of new builtin
+// compiler (both frontend and SSA backend) knows the signature
+// of this function
+func newobject(typ *_type) unsafe.Pointer {
+	return mallocgc(typ.size, typ, true)
 }
-
-func main() {
-    var iBuffer [10]int
-    slice := iBuffer[0:0]
-    for i := 0; i < 20; i++ {
-        slice = Extend(slice, i)
-        fmt.Println(slice)
-    }
-}
-/*
-[0]
-[0 1]
-[0 1 2]
-[0 1 2 3]
-[0 1 2 3 4]
-[0 1 2 3 4 5]
-[0 1 2 3 4 5 6]
-[0 1 2 3 4 5 6 7]
-[0 1 2 3 4 5 6 7 8]
-[0 1 2 3 4 5 6 7 8 9]
-panic: runtime error: slice bounds out of range [:11] with capacity 10
-
-goroutine 1 [running]:
-main.Extend(...)
-	/Users/kfcampbell/go/src/github.com/kfcampbell/go-experiments/main.go:9
-main.main()
-	/Users/kfcampbell/go/src/github.com/kfcampbell/go-experiments/main.go:18 +0x100
-exit status 2
-*/
 ```
 
-Why is this significant? 
+For our purposes, we're not very concerned with the particulars of `mallocgc()`; it's enough to know that `new` returns an `unsafe.Pointer`.
 
-It's important to remember when copying or creating slices that while the array portion is passed by reference, the values for the length and capacity aren't. It may help you avoid an ugly panic in the future [unlike this poor child](https://preview.redd.it/oepz8q6lopy41.png?width=538&auto=webp&s=1e0901f3b884b2b636691f50ecb5fff068b8d2b3).
+The `make` source, however, is split up into three pieces. The Go compiler calls either [makeslice()](https://github.com/golang/go/blob/master/src/runtime/slice.go#L83), [makemap()](https://github.com/golang/go/blob/master/src/runtime/map.go#L303), or [makechan()](https://github.com/golang/go/blob/master/src/runtime/chan.go#L71) depending on what developer requires.
+
+Note that due to optimizations, these functions may not be called _exactly_. For example, there's a [makemap_small()](https://github.com/golang/go/blob/master/src/runtime/map.go#L292) function called under certain conditions instead of `makemap`.
+
+However, eagle-eyed readers will notice that `makeslice()`, for example, _also_ returns an `unsafe.Pointer`.
+
+What's going on here? Earlier we say that calls to `make()` returned a type, not a pointer to a type.
+
+Well, `makeslice()` is called by other helper initialization code. This is the actual definition of what we think of as a [struct](https://github.com/golang/go/blob/master/src/runtime/slice.go#L13):
+
+```go
+type slice struct {
+	array unsafe.Pointer
+	len   int
+	cap   int
+}
+```
+
+This is known as the _slice header_. I wanted to make a little drawing, so here's a brief explanation of each part:
+
+<img class="col three" src="{{ site.baseurl }}/assets/img/slice_header.png">
+<div class="col three caption">
+    I'm sorry, I really tried to draw a decent row of blocks for that array. I'm not spacially gifted.
+</div>
+<br/>
+
+However, slice/map/channel internals are out of scope for this blog post. If I [feel cute later](https://knowyourmeme.com/memes/feeling-cute-might-delete-later), I might write another blog post on them, idk.
 
 Is there a moral to this whole story? Not really, no.
 
