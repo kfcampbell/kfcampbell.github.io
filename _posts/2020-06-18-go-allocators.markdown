@@ -165,15 +165,15 @@ func newobject(typ *_type) unsafe.Pointer {
 
 For our purposes, we're not very concerned with the particulars of `mallocgc()`; it's enough to know that `new` returns an `unsafe.Pointer`.
 
-The `make` source, however, is split up into three pieces. The Go compiler calls either [makeslice()](https://github.com/golang/go/blob/master/src/runtime/slice.go#L83), [makemap()](https://github.com/golang/go/blob/master/src/runtime/map.go#L303), or [makechan()](https://github.com/golang/go/blob/master/src/runtime/chan.go#L71) depending on what developer requires.
+The `make` source, however, is split up into three pieces. The Go compiler creates calls to either [makeslice()](https://github.com/golang/go/blob/master/src/runtime/slice.go#L83), [makemap()](https://github.com/golang/go/blob/master/src/runtime/map.go#L303), or [makechan()](https://github.com/golang/go/blob/master/src/runtime/chan.go#L71) depending on what developer requires.
 
 Note that due to optimizations, these functions may not be called _exactly_. For example, there's a [makemap_small()](https://github.com/golang/go/blob/master/src/runtime/map.go#L292) function called under certain conditions instead of `makemap`.
 
 However, eagle-eyed readers will notice that `makeslice()`, for example, _also_ returns an `unsafe.Pointer`.
 
-What's going on here? Earlier we say that calls to `make()` returned a type, not a pointer to a type.
+What's going on here? Earlier we said that calls to `make()` returned a type, not a pointer to a type.
 
-Well, `makeslice()` is called by other helper initialization code. This is the actual definition of what we think of as a [struct](https://github.com/golang/go/blob/master/src/runtime/slice.go#L13):
+Well, `makeslice()` is called by other helper initialization code. This is the actual definition of what we think of as a [slice](https://github.com/golang/go/blob/master/src/runtime/slice.go#L13):
 
 ```go
 type slice struct {
