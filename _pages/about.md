@@ -2,7 +2,7 @@
 layout: about
 permalink: /
 title: <strong>Keegan</strong> Campbell
-description: Software Person <a href="https://github.com">@github</a>.
+description: Software person <a href="https://github.com">@github</a>.
 
 profile:
   align: right
