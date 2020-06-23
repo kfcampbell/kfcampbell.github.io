@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Keegan Campbell | Go for C# People, Part One: The Overview</title>
+  <meta name="description" content="This is the personal site of Keegan Campbell.
+">
+
+  
+
+  <link rel="shortcut icon" href="https://kfcampbell.com/assets/img/favicon.ico">
+
+  <link rel="stylesheet" href="https://kfcampbell.com/assets/css/main.css">
+  <link rel="canonical" href="https://kfcampbell.com/blog/2020/go-for-csharp-people-part-one/">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+
+  <div class="wrapper">
+
+    
+    <span class="site-title">
+        
+        <strong>Keegan</strong> Campbell
+    </span>
+    
+
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+      <div class="trigger">
+        <!-- About -->
+        <a class="page-link" href="https://kfcampbell.com/">about</a>
+
+        <!-- Blog -->
+        <a class="page-link" href="https://kfcampbell.com/blog/">blog</a>
+
+        <!-- Pages -->
+        
+          
+        
+          
+        
+          
+        
+          
+        
+
+        <!-- CV link -->
+        <!-- <a class="page-link" href="https://kfcampbell.com/assets/pdf/CV.pdf">vitae</a> -->
+
+      </div>
+    </nav>
+
+  </div>
+
+</header>
+
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Go for C# People, Part One: The Overview</h1>
+    <p class="post-meta">June 1, 2020</p>
+  </header>
+
+  <article class="post-content">
+    <h2 id="in-which-we-discuss-the-following">In which we discuss the following:</h2>
+
+<ul>
+  <li>Goals of this blog post</li>
+  <li>Quick Go summary</li>
+  <li>Basic similarities/differences</li>
+  <li>Dependency management</li>
+  <li>Brief tooling introduction</li>
+</ul>
+
+<h2 id="goals-of-this-blog-post">Goals of this blog post</h2>
+
+<p>Welcome! This post assumes working knowledge of C# and it’s targeted toward those without Go experience. The aim is to provide just enough of an introduction to the language to make you dangerous :P.</p>
+
+<p>When I start learning a new language, I tend to learn best by doing - that is, I like to experiment and make the dumb mistakes myself, before the deeper lessons sink in, and I’d like to make this the sort of blog post I wish I had when I was learning Go for the first time.</p>
+
+<p>That being said, there’s a couple basic things we have to discuss up front before we can jump straight into writing Go code (I know, I’m sorry!). But trust me, it won’t be so bad, and we’ll let you stare at compiler errors yourself in Part Two (coming soon!).</p>
+
+<p>For now, let’s start with a brief overview of the language and some of its major design decisions.</p>
+
+<h2 id="quick-go-summary">Quick Go summary</h2>
+
+<p>Go was developed at Google, first <a href="https://www.youtube.com/watch?v=rKnDgT73v8s">announced in 2009</a> and initially <a href="https://blog.golang.org/go1">released in 2012</a>. The language is:</p>
+
+<ul>
+  <li>statically-typed</li>
+  <li>compiled</li>
+  <li>automatically garbage-collected</li>
+</ul>
+
+<p>Go programs compile down to a single binary with all dependencies included. In contrast to C#, no runtime is needed, so applications may run in very thin containers such as <a href="https://hub.docker.com/_/scratch">scratch</a> or <a href="https://hub.docker.com/_/alpine/">alpine</a>.</p>
+
+<p>In addition, Go has a strong focus on concurrency.</p>
+
+<p>The approach it takes is a version of <a href="https://en.wikipedia.org/wiki/Communicating_sequential_processes">Communicating Sequential Processes</a>, which is a formal way of specifying rules for interaction in concurrent systems whose details are beyond the scope of this post.</p>
+
+<p>For our purposes, it’s enough to know that Go “shares memory by communicating”, in which various concurrent processes called “goroutines” pass objects between them.</p>
+
+<p>This is a large departure from more traditional object-oriented concurrency schemes, in which applications instead “communicate by sharing memory”: traditionally multiple threads share a reference to an object, and writes are controlled through a delicate balance of locks and mutexes.</p>
+
+<p>If this hasn’t sunk in yet, don’t worry! I will post a follow-up to this post soon that gets more into Go’s concurrency models.</p>
+
+<p>Go is frequently compared to C due to a similar syntax, pointer usage, and lack of class-based inheritance.</p>
+
+<p>However, Go is much safer than C (it’s much harder to cut yourself on a sharp pointer) and its concurrency tooling and robust standard library indicate significant capability on top of vanilla C.</p>
+
+<p>Go tends to align well with a couple of different use cases. Its small binary size, aforementioned concurrency mechanisms, and fast execution speed means it’s frequently chosen for high-volume distributed webservices, most frequently ones that speak RPC (especially gRPC and Twirp) but RESTful services as well.</p>
+
+<p>Some of these factors also make it useful for writing CLIs or interactive tools for testing services. You’ll commonly see a simple CLI included with a Twirp service for testing purposes here at GitHub.</p>
+
+<p>Go plays pretty nicely with C, and includes functionality that both lets applications call C code from Go, and also export Go code to C standard libraries (which can then be called by numerous other languages, including C, Node, Python, Java, and Ruby).</p>
+
+<p>For this reason, it’s a common choice when writing libraries and frameworks, even ones that need to integrate with other languages.</p>
+
+<p>Many of the attributes discussed above also make Go a reliable choice for automation, monitoring, and data processing tools. For more information on what the Go community is using the language for, you can view the results of the <a href="https://blog.golang.org/survey2019-results">yearly developer survey</a>.</p>
+
+<p>Go is a highly opinionated language:</p>
+
+<p>All Go source code is formatted the same, thanks to the <code class="language-plaintext highlighter-rouge">gofmt</code> command: a bold (and unprecedented?) language decision that has given programmers the ability to read and comprehend new code quickly.</p>
+
+<p>It also supports tools that manipulate and operate on source code, and allows for high-quality generated code.</p>
+
+<p>Uncapitalized members are always kept private, whereas capitalized ones are public (there are no <code class="language-plaintext highlighter-rouge">public</code>/<code class="language-plaintext highlighter-rouge">private</code> modifier keywords!).</p>
+
+<p>There is no concept of inheritance; instead the language promotes composition via a lightweight mechanism known as embedding.</p>
+
+<p>All of these decisions require every developer to either get with the program or leave, but once you re-align your thinking to the Go way of doing things, it allows for a surprising amount of speed and freedom.</p>
+
+<h2 id="basic-similarities-and-differences">Basic similarities and differences</h2>
+
+<h3 id="same-same">Same-same</h3>
+
+<p>Both Go and C# are:</p>
+
+<ul>
+  <li>statically-typed</li>
+  <li>compiled</li>
+  <li>automatically garbage-collected</li>
+  <li>support multiple platforms
+    <ul>
+      <li>in Go, typically no changes are needed to support a binary e.g. compiled on macOS but running in Linux in production</li>
+    </ul>
+  </li>
+  <li>include robust standard libraries</li>
+  <li>strong compatibility guarantee
+    <ul>
+      <li><a href="https://docs.microsoft.com/en-us/dotnet/framework/migration-guide/version-compatibility#backward-compatibility">.NET apps for the most part work on later versions of .NET</a></li>
+      <li><a href="https://golang.org/doc/go1compat">all Go programs are guaranteed to work with later releases of Go</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="but-different">But different</h3>
+
+<ul>
+  <li>Go has no runtime (like the <a href="https://docs.microsoft.com/en-us/dotnet/standard/clr">.NET CLR</a>) required</li>
+  <li>Go has no generics
+    <ul>
+      <li>You’ll find yourself freqently writing small bits of code for operations that would be trivial LINQ statements</li>
+      <li>This is a consistent pain point for the Go community</li>
+      <li>See <a href="https://go.googlesource.com/proposal/+/master/design/go2draft-generics-overview.md">here</a> for a proposal to add generics from language designer Russ Cox</li>
+    </ul>
+  </li>
+  <li>Go returns errors which are then checked by the caller, rather than try/catch blocks and exceptions for error handling</li>
+  <li>Go has no concept of <code class="language-plaintext highlighter-rouge">await</code>ing an action (more on this later)</li>
+  <li>Go places a strong emphasis on its applications staying up to date with the language, in contrast to the fragmentation in the .NET and .NET Core ecosystems</li>
+</ul>
+
+<h2 id="dependency-management">Dependency management</h2>
+
+<p>The only Go unit of import/export within a program is the <code class="language-plaintext highlighter-rouge">package</code>.</p>
+
+<p>All Go source files must declare a package in their first line, and every Go application must have at least one <code class="language-plaintext highlighter-rouge">package main</code> file that declares a <code class="language-plaintext highlighter-rouge">func main()</code>. Other than the file that contains <code class="language-plaintext highlighter-rouge">main</code>, code must be placed in a directory whose name matches the <code class="language-plaintext highlighter-rouge">package</code> of files within it.</p>
+
+<p>As previously mentioned, all uncapitalized members and functions are private, and all capitalized ones are publicly visible.</p>
+
+<p>There’s none of the <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/access-modifiers">modifier keywords</a> that C# has, which means you can leave your <code class="language-plaintext highlighter-rouge">private protected</code>s and <code class="language-plaintext highlighter-rouge">private internal</code>s on the shelf.</p>
+
+<p>In Go, there is only “private to your package”- and “exported to the world”-levels of privacy.</p>
+
+<p>At first glance, this might seem unsophisticated, or too dumbed-down for a “real” language.</p>
+
+<p>Sleep on it a little bit, and get back to me. It’ll sit a little better with you tomorrow, and a little better the day after that.</p>
+
+<h3 id="go-modules">Go modules</h3>
+
+<p>So you have some packages your project depends on…now what?</p>
+
+<p>Dependency management used to be a somewhat contentious subject in the Go ecosystem, with a number of third party solutions attempting to address the gap in this language tooling.</p>
+
+<p><a href="https://golang.org/doc/go1.11">v1.11</a>, however, introduced experimental support for Go modules, and <a href="https://golang.org/doc/go1.14">v1.14</a> (released this February) standardized them as ready for production use.</p>
+
+<p>Modules allow packages to be imported using their URL, as in <code class="language-plaintext highlighter-rouge">import github.com/go-sql-driver/mysql</code>. Interestingly, packages from within a project as well as third party dependencies are imported using <em>the exact same syntax</em>.</p>
+
+<p>Put another way: if a function is public in your code, and your code is accessible, anybody can import and use it!</p>
+
+<p>This can lead to some weird issues <a href="https://github.com/github/hub/issues/2517#issuecomment-615531677">like this one</a>, in which parts of an application are consumed as a library by other applications.</p>
+
+<p>Similar to Nuget packages (and unlike Node modules), modules are cached at a user level and not at a repository level (unless you’ve enabled vendoring, but that’s a topic for another time). Somewhat like a <code class="language-plaintext highlighter-rouge">Nuget.config</code> file, module dependencies are declared in a <code class="language-plaintext highlighter-rouge">go.mod</code> file in the project’s root. The syntax for this file is as follows:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">module</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="k">go</span><span class="o">-</span><span class="n">sample</span><span class="o">-</span><span class="n">service</span>
+
+<span class="k">go</span> <span class="m">1.14</span>
+
+<span class="n">require</span> <span class="p">(</span>
+	<span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="k">go</span><span class="o">-</span><span class="n">sql</span><span class="o">-</span><span class="n">driver</span><span class="o">/</span><span class="n">mysql</span> <span class="n">v1</span><span class="m">.5.0</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>You’ll notice three important sections: the top line is the declaration of the module name (also where it’s hosted).</p>
+
+<p>The second line is the version of Go the module uses.</p>
+
+<p>After that, all the modules the application imports are declared and given a version.</p>
+
+<p>Building and/or running your code will result in a generated file <code class="language-plaintext highlighter-rouge">go.sum</code> that contains the checksums for all the packages you use.</p>
+
+<p>Similar to a <code class="language-plaintext highlighter-rouge">package.json</code> (although NOT a lockfile, it contains enough information for reproducible builds), this should be checked into source control.</p>
+
+<h2 id="brief-tooling-introduction">Brief tooling introduction</h2>
+
+<p>Go development heavily relies on a few tools I’ll provide a brief overview of here.</p>
+
+<p>To see all the tools and their documentation, run <code class="language-plaintext highlighter-rouge">go help</code> and then <code class="language-plaintext highlighter-rouge">go help &lt;command&gt;</code> at your terminal. For now, what you need to know are the following:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">go get</code>
+    <ul>
+      <li>Adds and installs dependencies to your current project</li>
+      <li>Example use: <code class="language-plaintext highlighter-rouge">go get github.com/go-sql-driver/mysql</code></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">go build</code>
+    <ul>
+      <li>Compiles packages and dependencies</li>
+      <li>Example use: <code class="language-plaintext highlighter-rouge">go build ./...</code> to recursively build every package in the current directory</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">go run</code>
+    <ul>
+      <li>Compiles <em>and</em> runs a Go program with a main package</li>
+      <li>Example use: <code class="language-plaintext highlighter-rouge">go run cmd/twirp/main.go</code> in the <a href="https://github.com/github/go-sample-service">go-sample-service</a></li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">gofmt</code>
+    <ul>
+      <li>Will reformat source code in your package</li>
+      <li>Many editors have plugins to perform this operation automatically on saving</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">go mod</code>
+    <ul>
+      <li>Command to interact with modules</li>
+      <li>Example use: <code class="language-plaintext highlighter-rouge">go mod tidy</code> will add any missing modules necessary to build and remove any unused modules</li>
+    </ul>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">go doc</code>
+    <ul>
+      <li>Invaluable tool for quickly looking up Go documentation</li>
+      <li>Example use: <code class="language-plaintext highlighter-rouge">go doc fmt.Sprintf</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="creating-an-example-application-for-a-sandbox">Creating an example application for a sandbox</h3>
+
+<p>Go has a <a href="https://play.golang.org/">sweet playground</a> for you to experiment in!</p>
+
+<p>But if you’re the type who’s reading this in Mutt through an RSS feed, <a href="https://golang.org/doc/install">install Go</a> (or on MacOS, just run <code class="language-plaintext highlighter-rouge">brew install go</code>) and create a file called <code class="language-plaintext highlighter-rouge">main.go</code> and fill it with the following content:</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+    <span class="s">"fmt"</span>
+<span class="p">)</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"identity theft is not a joke, jim"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Remember how opinionated Go is? The “Go-y” place to store your source is <code class="language-plaintext highlighter-rouge">~/go/src/url/to/your/code</code>.</p>
+
+<p>In practice, that looks something like <code class="language-plaintext highlighter-rouge">~/go/src/github.com/github/hub</code>. For those of you following along at home, you can dump your newly created file in a directory like <code class="language-plaintext highlighter-rouge">~/go/src/github.com/yourGitHubName/go-experiments</code>.</p>
+
+<p>If you’ve done everything right, you can <code class="language-plaintext highlighter-rouge">cd</code> to that directory and run <code class="language-plaintext highlighter-rouge">go run main.go</code>, and you’ll be able to see the string output to stdout.</p>
+
+<h2 id="thats-it-for-now">That’s it for now!</h2>
+
+<p>Part Two on this topic is coming soon! If you’re interested, I can be reached <a href="https://github.com/kfcampbell">@kfcampbell on GitHub</a> or <a href="https://twitter.com/keeganfcampbell">@keeganfcampbell on Twitter</a>, because apparently that’s a thing I have now.</p>
+
+  </article>
+
+  
+
+</div>
+
+      </div>
+    </div>
+
+    <footer>
+
+  <div class="wrapper">
+    &copy; Copyright 2020 Keegan Campbell.
+    Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
+
+    
+  </div>
+
+</footer>
+
+
+    <!-- Load jQuery -->
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<!-- Load Common JS -->
+<script src="https://kfcampbell.com/assets/js/common.js"></script>
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+<script src="https://kfcampbell.com/assets/js/katex.js"></script>
+
+
+
+
+<!-- Include custom icon fonts -->
+<link rel="stylesheet" href="https://kfcampbell.com/assets/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="https://kfcampbell.com/assets/css/academicons.min.css">
+
+
+
+
+  </body>
+
+</html>
