@@ -187,7 +187,7 @@ This is known as the _slice header_. I wanted to make a little drawing, so here'
 
 <img class="col three" src="{{ site.baseurl }}/assets/img/slice_header.png">
 <div class="col three caption">
-    I'm sorry, I really tried to draw a decent row of blocks for that array. I'm not spacially gifted.
+    I'm sorry, I really tried to draw a decent row of blocks for that array. I'm not spatially gifted.
 </div>
 <br/>
 
